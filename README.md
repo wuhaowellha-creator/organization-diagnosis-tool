@@ -167,4 +167,4 @@ The maintainer reviews issues and pull requests, owns architecture and releases,
 
 ## License
 
-MIT © 2026 [Bighao](https://github.com/wuhaowellha-creator). See [LICENSE](LICENSE).
+MIT © 2026 [**YUY**](https://github.com/wuhaowellha-creator) [**(wuhaowellha-creator)**](https://github.com/wuhaowellha-creator). See [LICENSE](LICENSE).

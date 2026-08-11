@@ -26,7 +26,7 @@ AI 在这里负责整理线索、生成草稿和辅助表达；对人的评价�
 
 组织脉络把四类职责清晰分开：
 
-1. **记录事实**——HRBP记录事实，保存观察到的内容。
+1. **记录事实**——HRBP 记录事实，保存观察到的内容。
 2. **辅助研判**——由 AI 整理线索，形成结构化草稿。
 3. **人工确认**——由使用者复核、修改并明确确认研判结果。
 4. **持续跟进**——把已确认问题转为行动、复盘与管理摘要。
@@ -162,4 +162,4 @@ POST /api/records/:id/diagnose
 
 ## 许可证
 
-MIT © 2026 [Bighao](https://github.com/wuhaowellha-creator)。详见 [LICENSE](LICENSE)。
+MIT © 2026 [**YUY**](https://github.com/wuhaowellha-creator) [**(wuhaowellha-creator)**](https://github.com/wuhaowellha-creator)。详见 [LICENSE](LICENSE)。
