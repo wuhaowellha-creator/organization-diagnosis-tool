@@ -1,53 +1,89 @@
-# 组织诊断工作台
+<h1 align="center">组织脉络</h1>
 
-**组织脉络**是一套面向 HRBP 的开源、人机协同组织诊断工作台。它把访谈和工作观察转化为可复核的诊断、可推进的跟进事项与可复用的管理报告，并确保 AI 结果不能绕过人工确认。
+<p align="center"><strong>把零散的组织观察，转化为可复核的研判与可持续的行动。</strong></p>
 
-[English](README.md) · [贡献指南](CONTRIBUTING.md#中文) · [路线图](ROADMAP.md#中文) · [安全说明](SECURITY.md#中文)
+<p align="center">
+  <a href="README.md">English</a> ·
+  <a href="CONTRIBUTING.md#中文">贡献指南</a> ·
+  <a href="ROADMAP.md#中文">路线图</a> ·
+  <a href="SECURITY.md#中文">安全说明</a>
+</p>
 
-> **项目状态：**早期、持续维护中。核心工作流已经可用，但外部用户与贡献者社区仍在建设；在数据可验证前，项目不会虚构 Star、下载量或使用规模。
+<p align="center">
+  <img src="docs/images/product/records-overview.png" alt="组织脉络工作记录总览" width="100%">
+</p>
+
+**组织脉络**是一套面向 HRBP、组织发展团队与承担组织管理职责的团队负责人的开源工作台。它把访谈、反馈和团队观察沉淀为可追溯的工作记录，在人工复核的前提下生成 AI 辅助研判，并将确认后的问题继续转为跟进事项和管理摘要。
+
+AI 在这里负责整理线索、生成草稿和辅助表达；对人的评价、风险确认与后续动作始终由人决定。未经人工确认的研判不会进入跟进事项或报告。
+
+> [!NOTE]
+> 项目处于早期、持续开发阶段。当前端到端工作流已经可用，但在首个稳定版本发布前，API 与数据结构仍可能调整。
 
 ## 为什么做这个项目
 
-HR 观察经常散落在访谈笔记中，而 AI 直接生成的管理结论又缺少可追溯性。本项目提供一个可自行部署的参考实现，将事实输入、机器辅助、人工判断和后续执行清晰分离。
+重要的组织信号往往散落在访谈笔记、会议纪要和个人文档中：原始语境容易丢失，同类问题难以持续追踪，直接由 AI 生成的管理结论也不便审计。
 
-对开发者而言，它也展示了以下可复用能力：
+组织脉络把四类职责清晰分开：
 
-- 与供应商解耦的 OpenAI 兼容模型适配层；
-- 结构化输出校验与确定性降级规则；
-- 下游动作前强制人工确认；
-- 基于 Cloudflare D1 的用户数据隔离；
-- 事务式 CSV 导入和可审计报告导出；
-- 完整的 Vinext / React / ChatGPT Sites 应用实现。
-
-## 核心流程
+1. **记录事实**——先保存观察到的内容，不急于给人或团队下结论。
+2. **辅助研判**——由 AI 或内置规则整理线索，形成结构化草稿。
+3. **人工确认**——由使用者复核、修改并明确确认研判结果。
+4. **持续跟进**——把已确认问题转为行动、复盘与管理摘要。
 
 ```mermaid
 flowchart LR
-  A[工作记录] --> B[AI 辅助草稿]
+  A[记录事实] --> B[AI 辅助草稿]
   B --> C{人工复核}
   C -->|修改| B
   C -->|确认| D[跟进事项]
-  C -->|确认| E[摘要报告]
+  C -->|确认| E[管理摘要]
   D --> F[复盘结果]
 ```
 
-AI 输出始终只是草稿。未确认诊断不能创建跟进事项，也不会进入报告数据源。
+## 产品导览
 
-## 主要能力
+### 1. 先记录事实，再形成判断
 
-- 创建、编辑、搜索、筛选和批量导入工作记录。
-- 单次导入最多 100 条 CSV；浏览器与服务端双重校验，任意一行不合格则整批拒绝。
-- 使用 DeepSeek、OpenAI、OpenRouter 或其他兼容接口生成结构化诊断草稿。
-- 外部模型不可用或输出不合规时，自动回退到审慎的内置规则。
-- 诊断经人工编辑和确认后才可进入后续流程。
-- 中高风险诊断可转为跟进事项，并防止重复创建。
-- 管理跟进状态、建议动作与复盘结果。
-- 按时间范围生成报告，并批量导出 Excel 可直接打开的 UTF-8 CSV。
-- 部署到 ChatGPT Sites 后使用 ChatGPT 身份，并通过 D1 按用户隔离数据。
+创建、搜索、筛选或批量导入工作记录，让访谈与团队观察保留原始语境，并能持续检索和补充。
+
+### 2. 让 AI 提供草稿，由人确认结果
+
+从原始记录生成结构化研判，查看依据与风险等级，并在进入后续流程前由使用者修改或确认。
+
+<p align="center">
+  <img src="docs/images/product/record-assessment.png" alt="AI 辅助研判与人工确认" width="100%">
+</p>
+
+### 3. 把已确认问题转为跟进行动
+
+集中查看已确认的中高风险事项，持续记录负责人、状态、建议动作与复盘结果，避免判断停留在报告里。
+
+<p align="center">
+  <img src="docs/images/product/follow-up-items.png" alt="跟进事项与进展管理" width="100%">
+</p>
+
+### 4. 只汇总经过确认的信息
+
+按时间范围汇总人工确认的研判与跟进进展，可复制单份摘要，也可批量导出 UTF-8 CSV。
+
+<p align="center">
+  <img src="docs/images/product/report-generation.png" alt="管理摘要生成" width="100%">
+</p>
+
+## 已包含的能力
+
+- 创建、编辑、搜索、筛选工作记录，并支持单次最多 100 条的事务式 CSV 导入。
+- 使用 DeepSeek、OpenAI、OpenRouter 或其他 OpenAI 兼容接口生成结构化研判草稿。
+- 外部模型不可用或输出不合规时，回退到审慎的内置规则。
+- 研判经人工编辑和确认后，才可进入跟进与报告流程。
+- 将中高风险研判转为防重复的跟进事项，并记录状态、行动和复盘结果。
+- 按时间范围生成管理摘要，并批量导出 Excel 可直接打开的 UTF-8 CSV。
+- 部署到 ChatGPT Sites 后使用 ChatGPT 身份，并通过 Cloudflare D1 按用户隔离数据。
 
 ## 快速开始
 
-要求：Node.js 22.13+、pnpm 10。
+环境要求：Node.js 22.13+、pnpm 10。
 
 ```bash
 git clone https://github.com/wuhaowellha-creator/organization-diagnosis-tool.git
@@ -58,7 +94,7 @@ pnpm db:generate
 pnpm dev
 ```
 
-访问 `http://localhost:3000`。外部 AI 密钥不是必需项；未配置时会使用内置诊断规则。
+访问 `http://localhost:3000`。外部 AI 密钥不是必需项；未配置时会使用内置研判规则，核心流程仍然可用。
 
 提交改动前运行：
 
@@ -70,7 +106,7 @@ pnpm check
 
 ## AI 接口与数据处理
 
-AI 接口入口位于工作记录详情页的“AI 辅助诊断”区域。支持的服务端变量如下：
+AI 接口设置位于工作记录详情页的“AI 辅助诊断”区域。
 
 | 接口 | 环境变量 |
 | --- | --- |
@@ -79,7 +115,7 @@ AI 接口入口位于工作记录详情页的“AI 辅助诊断”区域。支�
 | OpenRouter | `OPENROUTER_API_KEY`、`OPENROUTER_BASE_URL`、`OPENROUTER_MODEL` |
 | 兼容接口 | `COMPATIBLE_API_KEY`、`COMPATIBLE_BASE_URL`、`COMPATIBLE_MODEL` |
 
-服务端密钥不会写入业务数据库。用户也可以使用保存在当前浏览器中的密钥；该密钥只在生成诊断时发送到本站服务端，不写入 D1。在处理真实 HR 数据或使用共享设备前，请阅读[安全说明](SECURITY.md#中文)。
+服务端密钥不会写入业务数据库。用户也可以使用保存在当前浏览器中的密钥；该密钥只在生成研判时发送到本站服务端，不写入 D1。在处理真实 HR 数据或使用共享设备前，请阅读[安全说明](SECURITY.md#中文)。
 
 ## 架构
 
@@ -87,16 +123,42 @@ AI 接口入口位于工作记录详情页的“AI 辅助诊断”区域。支�
 React 19 + Vinext
         │
         ├── 页面与 API 路由
-        ├── 人工确认式诊断领域逻辑
+        ├── 人工确认式研判领域逻辑
         ├── 多模型适配层与安全校验
         └── Drizzle ORM ── Cloudflare D1
 ```
 
+核心 AI 路径：
+
+```text
+POST /api/records/:id/diagnose
+  → 解析当前用户的模型设置
+  → 调用模型适配层
+  → 校验结构与安全约束
+  → 保存待确认的研判草稿
+  → 等待人工确认
+```
+
+## API 概览
+
+- `GET|POST /api/records`
+- `POST /api/records/import`
+- `GET|PATCH /api/records/:id`
+- `POST /api/records/:id/diagnose`
+- `PATCH /api/diagnoses/:id`
+- `POST /api/diagnoses/:id/confirm`
+- `POST /api/records/:id/create-follow-up`
+- `GET|PATCH /api/follow-ups/:id`
+- `POST /api/reports/summary`
+- `GET|PATCH /api/settings/ai`
+
+所有业务数据接口都会识别当前用户，并把数据范围限制在该用户之内。
+
 ## 参与维护
 
-欢迎提交真实的缺陷、使用反馈、文档改进、测试和聚焦明确的 Pull Request。请先阅读[贡献指南](CONTRIBUTING.md#中文)与[路线图](ROADMAP.md#中文)。
+欢迎提交真实缺陷、使用反馈、文档改进、测试和范围明确的 Pull Request。请先阅读[贡献指南](CONTRIBUTING.md#中文)与[路线图](ROADMAP.md#中文)。
 
-维护者负责架构、Issue 分类、PR 评审、发布与文档，并确保所有合并、发布及 AI 辅助判断最终由人完成。
+维护者负责架构、Issue 分类、PR 评审、发布与文档，并确保合并、发布和 AI 辅助研判最终都由人决定。
 
 ## 许可证
 

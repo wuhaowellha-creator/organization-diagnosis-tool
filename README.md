@@ -1,49 +1,85 @@
-# Organization Diagnosis Workbench
+<h1 align="center">Organization Diagnosis Workbench</h1>
 
-**组织脉络** is an open-source, human-in-the-loop organization diagnosis workbench for HR business partners. It turns interviews and workplace observations into reviewable diagnoses, accountable follow-ups, and reusable management reports—without allowing AI output to bypass human confirmation.
+<p align="center"><strong>From scattered observations to reviewable assessments and accountable follow-through.</strong></p>
 
-[简体中文](README.zh-CN.md) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Security](SECURITY.md)
+<p align="center">
+  <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="ROADMAP.md">Roadmap</a> ·
+  <a href="SECURITY.md">Security</a>
+</p>
 
-> **Project status:** early-stage and actively maintained. The core workflow is usable, but the project is still building its external user and contributor community. Usage numbers are intentionally not claimed until they can be verified.
+<p align="center">
+  <img src="docs/images/product/records-overview.png" alt="Organization Diagnosis Workbench records overview" width="100%">
+</p>
+
+**Organization Signals (组织脉络)** is an open-source workspace for HR business partners, organizational development teams, and people leaders. It turns interviews, feedback, and team observations into traceable records, reviewable AI-assisted assessments, accountable follow-ups, and management-ready summaries.
+
+AI helps structure evidence and draft suggestions. It does not make automated decisions about people, bypass human review, or turn an unconfirmed assessment into a downstream action.
+
+> [!NOTE]
+> This is an early-stage project under active development. The end-to-end workflow is usable today, while APIs and data structures may continue to evolve before the first stable release.
 
 ## Why this project exists
 
-HR observations often live in scattered notes, while AI-generated conclusions can be difficult to audit. This project provides a self-hostable reference implementation that keeps facts, machine assistance, human judgment, and follow-up state separate.
+Important organizational signals often remain scattered across interview notes, meeting follow-ups, and personal documents. Context gets lost, similar issues are handled inconsistently, and AI-generated conclusions can be difficult to audit.
 
-It is also useful to developers building responsible AI workflows because it demonstrates:
+This project keeps four responsibilities deliberately separate:
 
-- a provider-neutral OpenAI-compatible model adapter;
-- structured-output validation and a deterministic fallback;
-- human approval gates before downstream actions;
-- user-isolated persistence on Cloudflare D1;
-- transactional CSV imports and auditable report exports;
-- a complete Vinext / React / ChatGPT Sites application.
-
-## Core workflow
+1. **Capture evidence** — record what was observed without forcing an immediate conclusion.
+2. **Assist analysis** — use AI or deterministic rules to organize signals into a structured draft.
+3. **Confirm with a human** — review, revise, and explicitly approve the assessment.
+4. **Follow through** — convert confirmed findings into owned actions, retrospectives, and reports.
 
 ```mermaid
 flowchart LR
-  A[Work record] --> B[AI-assisted draft]
+  A[Capture evidence] --> B[AI-assisted draft]
   B --> C{Human review}
   C -->|Revise| B
-  C -->|Confirm| D[Follow-up item]
+  C -->|Confirm| D[Follow-up]
   C -->|Confirm| E[Summary report]
   D --> F[Retrospective]
 ```
 
-AI output is always a draft. Unconfirmed diagnoses cannot create follow-up items and are excluded from reports.
+## Product tour
 
-## Features
+### 1. Capture facts before drawing conclusions
 
-- Create, edit, search, filter, and bulk-import work records.
-- Import up to 100 CSV rows with browser and server validation; reject the entire batch when any row is invalid.
-- Generate structured diagnosis drafts with DeepSeek, OpenAI, OpenRouter, or another compatible endpoint.
-- Fall back to conservative built-in rules when an external provider is unavailable or returns invalid output.
-- Review and confirm diagnoses before they enter the operational workflow.
-- Convert confirmed medium/high-risk diagnoses into deduplicated follow-up items.
-- Track status, suggested actions, and retrospective results.
-- Generate date-range reports and batch-export UTF-8 CSV files that open correctly in Excel.
-- Use ChatGPT identity and D1-backed per-user data isolation when deployed through ChatGPT Sites.
+Create, search, filter, and bulk-import work records so interviews and team observations remain traceable to their original context.
+
+### 2. Use AI as a draft, then review it
+
+Generate a structured assessment from the record, inspect its reasoning and risk level, and require a person to revise or confirm it before anything moves forward.
+
+<p align="center">
+  <img src="docs/images/product/record-assessment.png" alt="AI-assisted assessment and human confirmation" width="100%">
+</p>
+
+### 3. Turn confirmed findings into follow-through
+
+Bring confirmed medium- and high-risk items into one follow-up view, then track ownership, status, suggested actions, and retrospective results.
+
+<p align="center">
+  <img src="docs/images/product/follow-up-items.png" alt="Follow-up items and progress tracking" width="100%">
+</p>
+
+### 4. Summarize what has actually been confirmed
+
+Generate date-range reports from human-confirmed assessments and follow-up progress, then copy an individual report or batch-export UTF-8 CSV files.
+
+<p align="center">
+  <img src="docs/images/product/report-generation.png" alt="Management summary report generation" width="100%">
+</p>
+
+## What is included
+
+- Work-record creation, editing, search, filtering, and transactional CSV import of up to 100 rows.
+- Structured assessment drafts from DeepSeek, OpenAI, OpenRouter, or another OpenAI-compatible endpoint.
+- Conservative built-in rules when an external provider is unavailable or returns invalid output.
+- Explicit human review and confirmation before follow-ups or reports can use an assessment.
+- Deduplicated follow-up items with status, actions, and retrospective notes.
+- Date-range reports and Excel-friendly UTF-8 CSV batch export.
+- ChatGPT identity and Cloudflare D1-backed per-user data isolation when deployed through ChatGPT Sites.
 
 ## Quick start
 
@@ -63,7 +99,7 @@ pnpm db:generate
 pnpm dev
 ```
 
-Open `http://localhost:3000`. External AI keys are optional; without them, the built-in diagnosis rules keep the core workflow available.
+Open `http://localhost:3000`. External AI credentials are optional; without them, the built-in assessment rules keep the core workflow available.
 
 ### Validate a change
 
@@ -75,7 +111,7 @@ This runs the automated tests, TypeScript validation, and a production build—t
 
 ## AI providers and data handling
 
-The provider can be selected from the **AI-assisted diagnosis** panel on a work-record detail page.
+Provider settings are available from the **AI-assisted assessment** section on a work-record detail page.
 
 | Provider | Environment variables |
 | --- | --- |
@@ -84,7 +120,7 @@ The provider can be selected from the **AI-assisted diagnosis** panel on a work-
 | OpenRouter | `OPENROUTER_API_KEY`, `OPENROUTER_BASE_URL`, `OPENROUTER_MODEL` |
 | Compatible API | `COMPATIBLE_API_KEY`, `COMPATIBLE_BASE_URL`, `COMPATIBLE_MODEL` |
 
-Server-side keys never enter the business database. A user may optionally provide a browser-local key; it is sent to this application's server only when generating a diagnosis and is not persisted in D1. See [SECURITY.md](SECURITY.md) before using real HR data or a shared device.
+Server-side keys never enter the business database. A user may optionally provide a browser-local key; it is sent to this application's server only when generating an assessment and is not persisted in D1. Read [SECURITY.md](SECURITY.md) before using real HR data or a shared device.
 
 ## Architecture
 
@@ -92,7 +128,7 @@ Server-side keys never enter the business database. A user may optionally provid
 React 19 + Vinext
         │
         ├── App routes and API handlers
-        ├── Human-in-the-loop diagnosis domain
+        ├── Human-in-the-loop assessment domain
         ├── Multi-provider AI adapter + safety validation
         └── Drizzle ORM ── Cloudflare D1
 ```
@@ -104,7 +140,7 @@ POST /api/records/:id/diagnose
   → resolve the current user's provider settings
   → call the provider adapter
   → validate structure and safety constraints
-  → persist a pending diagnosis draft
+  → persist a pending assessment draft
   → require human confirmation
 ```
 
@@ -123,11 +159,11 @@ POST /api/records/:id/diagnose
 
 Every business-data endpoint resolves the current user and scopes records to that user.
 
-## Contributing and maintenance
+## Contributing
 
 Bug reports, design discussions, documentation improvements, tests, and focused pull requests are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md) and the [roadmap](ROADMAP.md).
 
-The maintainer reviews issues and pull requests, owns architecture and releases, and keeps final merge and AI-assisted decisions under human control. Project decisions and releases will be documented publicly as the community grows.
+The maintainer reviews issues and pull requests, owns architecture and releases, and keeps final merge and AI-assisted decisions under human control.
 
 ## License
 
