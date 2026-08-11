@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1786344254513,
+      "tag": "0000_aberrant_zarda",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1786351448135,
+      "tag": "0001_moaning_the_renegades",
+      "breakpoints": true
+    }
+  ]
+}

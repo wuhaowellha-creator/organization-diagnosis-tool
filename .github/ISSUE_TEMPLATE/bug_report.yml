@@ -1,0 +1,43 @@
+name: Bug report / 缺陷报告
+description: Report a reproducible problem without personal or HR-sensitive data. / 提交不含个人或 HR 敏感信息的可复现问题。
+title: "[Bug] "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for reporting a bug. Use synthetic data only. / 感谢反馈，请只使用合成数据。"
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary / 问题概述
+      description: What happened, and what did you expect? / 实际发生了什么？期望是什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps / 复现步骤
+      placeholder: "1. Open...\n2. Click...\n3. See..."
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit / 版本或提交
+      placeholder: v1.0.0 or commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 运行环境
+      description: Browser, OS, Node version, and deployment target. / 浏览器、系统、Node 版本和部署目标。
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Data safety / 数据安全
+      options:
+        - label: I removed credentials, personal data, and real HR records. / 我已删除密钥、个人信息和真实 HR 记录。
+          required: true

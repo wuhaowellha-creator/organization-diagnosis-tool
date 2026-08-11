@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@source "./";
+@source "../components";
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f3f6f6;
+  color: #1e293b;
+  font-family:
+    Inter,
+    "PingFang SC",
+    "Microsoft YaHei",
+    Arial,
+    sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  text-decoration: none;
+}
+
+::selection {
+  background: #99f6e4;
+  color: #020617;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
+}
+
+.app-shell__main {
+  background:
+    radial-gradient(circle at 94% 4%, rgba(45, 212, 191, 0.1), transparent 26rem),
+    #f3f6f6;
+}
+
+.hero-panel {
+  position: relative;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(45, 212, 191, 0.3), transparent 17rem),
+    linear-gradient(135deg, #020617 0%, #0f172a 72%, #134e4a 150%);
+}
+
+.primary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  background: #5eead4;
+  color: #042f2e;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.18);
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.primary-cta:hover {
+  background: #99f6e4;
+  transform: translateY(-1px);
+}
+
+.metric-card {
+  min-width: 0;
+  padding: 1.1rem;
+  border: 1px solid rgba(203, 213, 225, 0.75);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
+}
+
+.landing-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 76% 21%, rgba(20, 184, 166, 0.18), transparent 28rem);
+  background-size: 48px 48px, 48px 48px, auto;
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .app-header {
+    position: sticky;
+    top: 72px;
+    z-index: 10;
+  }
+
+  .metric-card {
+    padding: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

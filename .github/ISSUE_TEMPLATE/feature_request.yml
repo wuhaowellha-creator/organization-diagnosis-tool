@@ -1,0 +1,29 @@
+name: Feature request / 功能建议
+description: Propose a focused, user-grounded improvement. / 提出聚焦且有真实用户场景的改进。
+title: "[Feature] "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem / 用户问题
+      description: Describe the workflow problem, not only the desired solution. / 请描述流程问题，而不只是期望方案。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome / 期望结果
+      description: What should become easier, safer, or more reliable? / 哪件事应变得更简单、安全或可靠？
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / 已考虑的替代方案
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution / 参与贡献
+      options:
+        - label: I can help implement or test this proposal. / 我可以协助实现或测试。
